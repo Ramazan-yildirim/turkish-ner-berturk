@@ -1,0 +1,38 @@
+# Sanal Ortam (Virtual Environment)
+ner_venv/
+venv/
+.venv/
+env/
+ENV/
+
+# Python Bytecode & Önbellek Dosyaları
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Hugging Face & Model Çıktıları / Weights
+results/
+runs/
+checkpoint-*/
+saved_models/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+# Veri Önbellekleri (Cache)
+.cache/
+*.parquet
+
+# IDE / Editör Ayarları
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# İşletim Sistemi Dosyaları
+.DS_Store
+Thumbs.db
