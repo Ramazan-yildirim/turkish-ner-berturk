@@ -1,0 +1,11 @@
+# Versions verified with Python 3.12.2 in the project's local environment.
+# For a CUDA-specific PyTorch build, follow the installation selector at
+# https://pytorch.org/get-started/locally/ before installing this file.
+torch==2.11.0
+transformers==5.15.0
+datasets==5.0.1
+evaluate==0.4.6
+seqeval==1.2.2
+accelerate==1.14.0
+numpy==2.5.2
+ipykernel==7.3.0

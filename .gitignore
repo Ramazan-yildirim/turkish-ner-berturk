@@ -1,21 +1,51 @@
-# Sanal Ortam (Virtual Environment)
-ner_venv/
-venv/
+# Virtual environments
 .venv/
+venv/
 env/
 ENV/
+ner_venv/
+__pypackages__/
 
-# Python Bytecode & Önbellek Dosyaları
+# Python bytecode and packaging artifacts
 __pycache__/
-*.py[cod]
+*.py[codz]
 *$py.class
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+wheels/
+pip-wheel-metadata/
+
+# Test, coverage, lint, and type-check caches
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Jupyter
 .ipynb_checkpoints/
 
-# Hugging Face & Model Çıktıları / Weights
+# Hugging Face caches and generated datasets
+.cache/
+.huggingface/
+*.arrow
+*.parquet
+
+# Training runs, checkpoints, logs, and exported models
 results/
 runs/
+wandb/
+mlruns/
+logs/
 checkpoint-*/
+saved_berturk_ner/
 saved_models/
 *.bin
 *.safetensors
@@ -23,16 +53,18 @@ saved_models/
 *.pth
 *.onnx
 
-# Veri Önbellekleri (Cache)
-.cache/
-*.parquet
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
 
-# IDE / Editör Ayarları
+# IDE and editor settings
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# İşletim Sistemi Dosyaları
+# Operating system files
 .DS_Store
 Thumbs.db
+Desktop.ini
