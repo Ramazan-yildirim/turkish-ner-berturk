@@ -38,6 +38,10 @@ htmlcov/
 *.arrow
 *.parquet
 
+# Local vector database persistence
+.chroma/
+chroma_db/
+
 # Training runs, checkpoints, logs, and exported models
 results/
 runs/

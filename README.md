@@ -1,6 +1,6 @@
 # BERTurk ile Türkçe Adlandırılmış Varlık Tanıma
 
-Bu proje, Türkçe metinlerde kişi (`PER`), kurum (`ORG`) ve konum (`LOC`) varlıklarını bulmak için BERTurk modelini WikiANN veri kümesi üzerinde ince ayarlar. Eğitim, değerlendirme, en iyi modelin saklanması ve örnek veri incelemesi tek bir Jupyter notebook içinde uçtan uca gösterilir.
+Bu proje, Türkçe metinlerde kişi (`PER`), kurum (`ORG`) ve konum (`LOC`) varlıklarını bulmak için BERTurk modelini WikiANN veri kümesi üzerinde ince ayarlar. Eğitim ve değerlendirmeye ek olarak manuel hata analizi yapılır; çıkarılan varlıklar ChromaDB metadata'sına dönüştürülerek çok dilli cümle embedding'leri üzerinde anlamsal ve metadata filtreli arama denenir.
 
 ## Proje özeti
 
@@ -11,6 +11,8 @@ Bu proje, Türkçe metinlerde kişi (`PER`), kurum (`ORG`) ve konum (`LOC`) varl
 - Değerlendirme: `seqeval` ile precision, recall, F1 ve token accuracy
 - En iyi model seçimi: doğrulama F1 skoru
 - Kayıt politikası: test F1 önceki kaydı aşarsa model ve metrikler güncellenir
+- Manuel inceleme: 20 güncel Türkçe cümle ve 5 hata örneği
+- Vektör arama: `paraphrase-multilingual-MiniLM-L12-v2` embedding modeli ve ChromaDB
 
 ## Etiketler
 
@@ -34,9 +36,12 @@ Etiketler: ['O', 'B-PER', 'I-PER', 'B-ORG', 'I-ORG', 'B-LOC', 'I-LOC']
 
 ```text
 turkish-ner-berturk/
-├── prepare_data.ipynb   # Veri hazırlama, eğitim, değerlendirme ve model kaydı
-├── requirements.txt     # Doğrulanmış doğrudan Python bağımlılıkları
-├── .gitignore           # Ortam, önbellek, checkpoint ve model çıktıları
+├── prepare_data.ipynb      # Eğitim, değerlendirme, model kaydı ve manuel test
+├── vector_db.ipynb         # NER metadata'sı ile ChromaDB vektör araması
+├── manual_test_results.txt # 20 cümlelik ham manuel tahmin çıktısı
+├── hata_analizi.txt        # Seçilen 5 hatanın açıklaması
+├── requirements.txt        # Doğrulanmış doğrudan Python bağımlılıkları
+├── .gitignore              # Ortam, önbellek, checkpoint ve model çıktıları
 └── README.md
 ```
 
@@ -68,7 +73,7 @@ python -m ipykernel install --user --name turkish-ner-berturk --display-name 'Tu
 
 GPU ile eğitim yapılacaksa önce sistemdeki CUDA sürümüne uygun PyTorch paketi [PyTorch kurulum seçicisinden](https://pytorch.org/get-started/locally/) kurulmalıdır. Notebook CUDA kullanılabilirliğini otomatik olarak kontrol eder; CUDA yoksa eğitim CPU üzerinde çalışır ve belirgin ölçüde daha uzun sürer.
 
-İlk çalıştırmada WikiANN veri kümesi, BERTurk ağırlıkları ve `seqeval` değerlendirme modülü Hugging Face üzerinden indirilir; bu nedenle internet bağlantısı gerekir.
+İlk çalıştırmada WikiANN veri kümesi, BERTurk ağırlıkları, `seqeval` değerlendirme modülü ve vektör arama notebook'u için çok dilli Sentence Transformers modeli Hugging Face üzerinden indirilir; bu nedenle internet bağlantısı gerekir.
 
 ## Çalıştırma
 
@@ -76,6 +81,8 @@ GPU ile eğitim yapılacaksa önce sistemdeki CUDA sürümüne uygun PyTorch pak
 2. Kernel olarak `Turkish NER (BERTurk)` ortamını seçin.
 3. Hücreleri yukarıdan aşağıya sırayla çalıştırın.
 4. Eğitim tamamlanınca test metriklerini ve `saved_berturk_ner/` klasörünü kontrol edin.
+5. Manuel tahminler için notebook'un son test hücresini çalıştırıp `manual_test_results.txt` çıktısını inceleyin.
+6. Kayıtlı model hazırlandıktan sonra `vector_db.ipynb` hücrelerini sırayla çalıştırarak ChromaDB aramasını deneyin.
 
 Notebook'un temel veri yükleme ve tokenizer kurulumu şöyledir:
 
@@ -233,6 +240,61 @@ PER Mustafa Kemal Atatürk 0.9908
 LOC Ankara 0.9964
 ORG Türkiye Büyük Millet Meclisi 0.9985
 ```
+
+## Manuel test ve hata analizi
+
+Eğitilmiş model, kişi, kurum ve konum çeşitliliği içeren 20 güncel Türkçe cümle üzerinde ayrıca denenmiştir. Ham tahminler `manual_test_results.txt`, öne çıkan sorunlar ise `hata_analizi.txt` içinde tutulur. Bu çalışma etiketlenmiş bir benchmark olmadığı için başarı oranı hesaplamaz; gerçek kullanım davranışını nitel olarak incelemek amacıyla kullanılır.
+
+Başarılı örneklerden bazıları:
+
+```text
+Ahmet Yılmaz  -> PER (1.00)     İzmir          -> LOC (1.00)
+Apple Türkiye -> ORG (1.00)     İstanbul       -> LOC (1.00)
+Elon Musk     -> PER (0.95)     SpaceX         -> ORG (0.78)
+Teksas        -> LOC (1.00)     Orhan Pamuk    -> PER (1.00)
+```
+
+Manuel incelemede belirlenen beş temel hata türü:
+
+1. Bilinmeyen marka adlarının hatalı alt parçalara bölünmesi (`Togg` yerine `##g`).
+2. Kesme işareti ve ek alan kişi adlarının kaçırılması (`Tarkan'ın`).
+3. Çok kelimeli kurum adlarının yalnızca bir parçasının etiketlenmesi (`Kronik Kitap` yerine `Kr`).
+4. Cümle başındaki kısa kişi adlarının atlanması (`Zeynep`).
+5. Mekân ve kurum anlamı taşıyan adlarda `LOC`/`ORG` karışması (`Şükrü Saracoğlu Stadyumu`).
+
+## NER destekli vektör arama
+
+`vector_db.ipynb`, kayıtlı NER modelini `paraphrase-multilingual-MiniLM-L12-v2` cümle embedding modeli ve ChromaDB ile birleştirir. Her cümle embedding olarak saklanırken model tahminleri `PERSON`, `LOCATION` ve `ORGANIZATION` metadata alanlarına dönüştürülür.
+
+```python
+label_mapping = {
+    'PER': 'PERSON',
+    'LOC': 'LOCATION',
+    'ORG': 'ORGANIZATION',
+}
+```
+
+Yedi örnek cümleyle doğrulanan metadata çıktılarından bazıları:
+
+```text
+Apple Türkiye cümlesi:
+{'PERSON': 'Yok', 'LOCATION': 'İstanbul', 'ORGANIZATION': 'Apple Türkiye'}
+
+Elon Musk cümlesi:
+{'PERSON': 'Elon Musk', 'LOCATION': 'Teksas', 'ORGANIZATION': 'SpaceX'}
+```
+
+`Büyük teknoloji firmalarının yatırımları ve ofis açılışları` sorgusunda anlamsal aramanın ilk sonucu Trendyol cümlesi olmuştur. `ORGANIZATION != "Yok"` filtresi de başarıyla uygulanmış ve aşağıdaki iki sonucu döndürmüştür:
+
+```text
+Trendyol, yeni operasyon merkezini Kocaeli'nin Gebze ilçesinde açtı.
+Kurum/Firma: Trendyol
+
+Galatasaray, Şükrü Saracoğlu Stadyumu'nda Fenerbahçe ile karşılaştı.
+Kurum/Firma: Galatasaray, Şükrü Saracoğlu Stadyumu, Fenerbahçe
+```
+
+Notebook şu anda `chromadb.Client()` kullandığı için koleksiyon bellekte tutulur ve Python süreci sona erdiğinde kalıcı olmaz. Kalıcı kullanım için `PersistentClient` ve uygun bir yerel veri dizini tercih edilmelidir. Arama metadata'sı NER modelinin tahminlerine bağlı olduğundan manuel testte görülen `ORG`/`LOC` karışıklıkları filtre sonuçlarına da yansıyabilir.
 
 ## Üretilen dosyalar
 

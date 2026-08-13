@@ -9,3 +9,5 @@ seqeval==1.2.2
 accelerate==1.14.0
 numpy==2.5.2
 ipykernel==7.3.0
+chromadb==1.5.9
+sentence-transformers==5.7.0
