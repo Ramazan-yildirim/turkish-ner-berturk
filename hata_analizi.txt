@@ -1,0 +1,31 @@
+=== 5 HATA ANALIZI (ERROR ANALYSIS) ===
+
+Hata 1: Bilinmeyen Kelimenin Alt Parcalara Bolunmesi (Subword Problemi)
+- Cumle: Togg CEO'su Gurcan Karakas, Gemlik fabrikasinda basina bilgi verdi.
+- Beklenen: Togg -> ORG
+- Modelin Tahmini: ##g -> ORG (Guven: 0.72)
+- Analiz: "Togg" markasi modelin on egitim kelime dagarciginda (vocab) yer almadigi icin, model kelimeyi butun olarak algilayamamis ve anlamsiz alt parcalara (subwords) bolmustur. Sadece son heceye kurumsal bir etiket atayabilmistir.
+
+Hata 2: Kesme Isareti ve Iyelik Eki Yuzunden Ismin Atlanmasi
+- Cumle: Tarkan'in son konseri Harbiye Cemil Topuzlu Acikhava Tiyatrosu'nda gerceklesti.
+- Beklenen: Tarkan -> PER
+- Modelin Tahmini: [Varlik Bulunamadi - Atlandi]
+- Analiz: Ozel isimlere gelen eklerin kesme isareti ile ayrildigi durumlarda (Tarkan'in), model bazen baglami kaybederek bu kelimeyi siradan bir isim zannedip O (Outside) olarak etiketleyebilmektedir.
+
+Hata 3: Iki Kelimeli Kurum Adinin Bozulmasi
+- Cumle: Prof. Dr. Ilber Ortayli'nin son kitabi Kronik Kitap'tan cikti.
+- Beklenen: Kronik Kitap -> ORG
+- Modelin Tahmini: Kr -> ORG (Guven: 0.53)
+- Analiz: "Kronik Kitap" bir yayinevi (ORG) olmasina ragmen, model kelimeyi butunlestirememis ve sadece "Kr" parcasini dusuk bir guven skoruyla ORG olarak isaretlemistir.
+
+Hata 4: Cumle Basindaki Kisa Isimlerin Gormezden Gelinesi
+- Cumle: Zeynep, gecen hafta Ankara Universitesi'nden mezun oldu.
+- Beklenen: Zeynep -> PER
+- Modelin Tahmini: [Varlik Bulunamadi - Atlandi]
+- Analiz: Cumlenin en basinda yer alan ve virgulle ayrilan kisa kisi isimleri, model tarafindan bazen baglac veya siradan bir ozne gibi algilanip O (Outside) olarak siniflandirilabilmektedir.
+
+Hata 5: Kurum (ORG) ve Lokasyon (LOC) Karisikligi
+- Cumle: Galatasaray, Sukru Saracoglu Stadyumu'nda Fenerbahce ile karsilasti.
+- Beklenen: Sukru Saracoglu Stadyumu -> LOC (Mekan bildiriyor)
+- Modelin Tahmini: Sukru Saracoglu Stadyumu -> ORG
+- Analiz: Stadyumlar ve universiteler hem kurum hem mekan anlamina gelebilir. Cumlede "stadyumu'nda" denilerek acikca yer (LOC) bildirilmesine ragmen, model stadyum isimlerine egitim setinde genellikle atanan ORG etiketini secmistir (baglami kacirmistir).

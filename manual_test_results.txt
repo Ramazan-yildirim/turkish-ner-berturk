@@ -1,0 +1,105 @@
+=== 20 MANUEL TÜRKÇE CÜMLE NER TAHMİNLERİ ===
+Model: BERTurk - WikiANN Fine-tuned
+
+[1] CÜMLE : Ahmet Yılmaz bugün uçakla İzmir'e gitti.
+    TAHMİNLER:
+      • Ahmet Yılmaz              -> PER          (Güven: 1.00)
+      • İzmir                     -> LOC          (Güven: 1.00)
+------------------------------------------------------------
+[2] CÜMLE : Apple Türkiye, İstanbul'da yeni bir ofis açacağını duyurdu.
+    TAHMİNLER:
+      • Apple Türkiye             -> ORG          (Güven: 1.00)
+      • İstanbul                  -> LOC          (Güven: 1.00)
+------------------------------------------------------------
+[3] CÜMLE : Mustafa Kemal Atatürk, 1923 yılında Ankara'da cumhuriyeti ilan etti.
+    TAHMİNLER:
+      • Mustafa Kemal Atatürk     -> PER          (Güven: 0.99)
+      • Ankara                    -> LOC          (Güven: 1.00)
+------------------------------------------------------------
+[4] CÜMLE : Galatasaray, Şükrü Saracoğlu Stadyumu'nda Fenerbahçe ile karşılaştı.
+    TAHMİNLER:
+      • Galatasaray               -> ORG          (Güven: 1.00)
+      • Şükrü Saracoğlu Stadyumu  -> ORG          (Güven: 0.95)
+      • Fenerbahçe                -> ORG          (Güven: 1.00)
+------------------------------------------------------------
+[5] CÜMLE : Boğaziçi Üniversitesi kampüsü, İstanbul Boğazı'nın harika manzarasına sahiptir.
+    TAHMİNLER:
+      • Boğaziçi Üniversitesi     -> ORG          (Güven: 1.00)
+      • İstanbul Boğazı           -> LOC          (Güven: 0.99)
+------------------------------------------------------------
+[6] CÜMLE : Sağlık Bakanı Fahrettin Koca, yarın saat 14:00'te açıklama yapacak.
+    TAHMİNLER:
+      • Fahrettin Koca            -> PER          (Güven: 0.99)
+------------------------------------------------------------
+[7] CÜMLE : Türk Hava Yolları'nın TK2026 sefer sayılı uçağı Berlin'e teker koydu.
+    TAHMİNLER:
+      • Türk Hava Yolları         -> ORG          (Güven: 1.00)
+      • Berlin                    -> LOC          (Güven: 1.00)
+------------------------------------------------------------
+[8] CÜMLE : Trendyol, yeni operasyon merkezini Kocaeli'nin Gebze ilçesinde açtı.
+    TAHMİNLER:
+      • Trendyol                  -> ORG          (Güven: 0.97)
+      • Kocaeli                   -> LOC          (Güven: 1.00)
+      • Gebze                     -> LOC          (Güven: 1.00)
+------------------------------------------------------------
+[9] CÜMLE : Prof. Dr. İlber Ortaylı'nın son kitabı Kronik Kitap'tan çıktı.
+    TAHMİNLER:
+      • İlber Ortaylı             -> PER          (Güven: 0.99)
+      • Kr                        -> ORG          (Güven: 0.53)
+------------------------------------------------------------
+[10] CÜMLE : Elon Musk, SpaceX şirketinin merkezini Teksas'a taşıma kararı aldı.
+    TAHMİNLER:
+      • Elon Musk                 -> PER          (Güven: 0.95)
+      • SpaceX                    -> ORG          (Güven: 0.78)
+      • Teksas                    -> LOC          (Güven: 1.00)
+------------------------------------------------------------
+[11] CÜMLE : Tarkan'ın son konseri Harbiye Cemil Topuzlu Açıkhava Tiyatrosu'nda gerçekleşti.
+    TAHMİNLER:
+      • Harbiye Cemil Topuzlu Açıkhava Tiyatrosu -> ORG          (Güven: 0.99)
+------------------------------------------------------------
+[12] CÜMLE : Aselsan mühendisleri, yerli radar sistemini Gölbaşı tesislerinde test etti.
+    TAHMİNLER:
+      • Aselsan                   -> ORG          (Güven: 0.98)
+      • Gölbaşı                   -> LOC          (Güven: 0.97)
+------------------------------------------------------------
+[13] CÜMLE : Birleşmiş Milletler Genel Kurulu, New York'ta toplandı.
+    TAHMİNLER:
+      • Birleşmiş Milletler Genel Kurulu -> ORG          (Güven: 0.99)
+      • New York                  -> LOC          (Güven: 1.00)
+------------------------------------------------------------
+[14] CÜMLE : Togg CEO'su Gürcan Karakaş, Gemlik fabrikasında basına bilgi verdi.
+    TAHMİNLER:
+      • ##g                       -> ORG          (Güven: 0.72)
+      • Gürcan Karakaş            -> PER          (Güven: 0.98)
+      • Gemlik                    -> LOC          (Güven: 0.96)
+------------------------------------------------------------
+[15] CÜMLE : Zeynep, geçen hafta Ankara Üniversitesi'nden mezun oldu.
+    TAHMİNLER:
+      • Ankara Üniversitesi       -> ORG          (Güven: 1.00)
+------------------------------------------------------------
+[16] CÜMLE : Hepsiburada, e-ticaret pazarındaki payını artırmak için Londra'da yatırımcılarla buluştu.
+    TAHMİNLER:
+      • Hepsiburada               -> ORG          (Güven: 0.98)
+      • Londra                    -> LOC          (Güven: 1.00)
+------------------------------------------------------------
+[17] CÜMLE : ODTÜ Bilgisayar Mühendisliği bölümü öğrencileri Silikon Vadisi'ne gezi düzenledi.
+    TAHMİNLER:
+      • ODTÜ Bilgisayar Mühendisliği -> ORG          (Güven: 0.88)
+      • Silikon Vadisi            -> LOC          (Güven: 1.00)
+------------------------------------------------------------
+[18] CÜMLE : Cengiz Holding, Rize'nin İkizdere ilçesindeki projesine hız verdi.
+    TAHMİNLER:
+      • Cengiz Holding            -> ORG          (Güven: 0.99)
+      • Rize                      -> LOC          (Güven: 1.00)
+      • İkizdere                  -> LOC          (Güven: 0.99)
+------------------------------------------------------------
+[19] CÜMLE : İstanbul Büyükşehir Belediyesi, Haliç çevresinde yeni park alanları oluşturuyor.
+    TAHMİNLER:
+      • İstanbul Büyükşehir Belediyesi -> ORG          (Güven: 0.94)
+      • Haliç                     -> LOC          (Güven: 0.87)
+------------------------------------------------------------
+[20] CÜMLE : Nobel ödüllü yazar Orhan Pamuk, yeni romanının tanıtımını Paris'te yaptı.
+    TAHMİNLER:
+      • Orhan Pamuk               -> PER          (Güven: 1.00)
+      • Paris                     -> LOC          (Güven: 1.00)
+------------------------------------------------------------
